@@ -2,17 +2,15 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 
-
-
 public class BasePage {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected By bodyLocator = By.tagName("body");
-    protected By searchInputLocator = By.xpath("//div[contains(@class, 'chakra-input__group')]//input[@aria-label='Search input']");
+    protected By searchInputLocator = By
+            .xpath("//div[contains(@class, 'chakra-input__group')]//input[@aria-label='Search input']");
     protected By loginButtonLocator = By.xpath("//a[contains(@class, 'chakra-button') and contains(@href, 'sign-in')]");
-    
- 
+
     public BasePage(WebDriver driver) {
 
         this.driver = driver;
@@ -37,5 +35,10 @@ public class BasePage {
         return this.driver.getTitle();
     }
 
+    // Method to highlight elements using JavaScript executor
+    public void highlightElement(WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].style.border='3px solid red'", element);
+    }
 
 }

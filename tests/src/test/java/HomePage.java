@@ -21,6 +21,7 @@ public class HomePage extends BasePage {
 
     public String getHomePageTextAfterLogin() {
         WebElement homeTextElement = waitAndReturnElement(homeTextLocator);
+        highlightElement(homeTextElement);
         return homeTextElement.getText();
     }
 
@@ -41,6 +42,8 @@ public class HomePage extends BasePage {
         coursePage.click();
         return new CoursePage(this.driver);
     }
+
+ 
 
     public void displaySettingsMenu() {
         WebElement menuListElement = waitAndReturnElement(settingsMenuLocator);
