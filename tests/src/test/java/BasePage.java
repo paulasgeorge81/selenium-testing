@@ -9,6 +9,9 @@ public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected By bodyLocator = By.tagName("body");
+    protected By searchInputLocator = By.xpath("//div[contains(@class, 'chakra-input__group')]//input[@aria-label='Search input']");
+    protected By loginButtonLocator = By.xpath("//a[contains(@class, 'chakra-button') and contains(@href, 'sign-in')]");
+    
  
     public BasePage(WebDriver driver) {
 
@@ -26,6 +29,13 @@ public class BasePage {
         return bodyElement.getText();
     }
 
- 
+    public void navigateBack() {
+        this.driver.navigate().back();
+    }
+
+    public String getPageTitle() {
+        return this.driver.getTitle();
+    }
+
 
 }

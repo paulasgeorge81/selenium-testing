@@ -11,6 +11,7 @@ repositories {
 dependencies {
     testImplementation 'org.seleniumhq.selenium:selenium-java:2.52.0'
     testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:3.141.59'
+    testImplementation 'org.testng:testng:7.4.0'
     testImplementation('junit:junit:4.12'){
         exclude group: 'org.hamcrest'
     }
@@ -21,6 +22,10 @@ dependencies {
 
 test {
     testLogging.showStandardStreams = true
+    useTestNG()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 
