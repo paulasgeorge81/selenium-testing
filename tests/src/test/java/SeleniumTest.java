@@ -1,18 +1,11 @@
 import static org.junit.Assert.assertTrue;
 import java.net.MalformedURLException;
-// import org.junit.After;
-// import org.junit.Before;
-// import org.junit.Ignore;
-// import org.junit.Test;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.junit.Ignore;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -65,7 +58,7 @@ public class SeleniumTest {
 
   
     @Test(dependsOnMethods = "testInvalidLogin")
-    public void testHomeNavigationAndLogout() {
+    public void testHomeNavigationAndFunctionalitiesAfterLoginThenLogout() {
 
         // Test if the page title contains "Udacity"
         loginPage = mainPage.goToLoginPage();
@@ -83,13 +76,18 @@ public class SeleniumTest {
         coursePage.navigateBack();
         assertTrue(homePage.getHomePageTextAfterLogin().contains("My Programs"));
 
+        // Open profile page change basic infog and navigate back to home page
+        ProfilePage profilePage = homePage.goToProfilePage();
+        profilePage.changeBasicInfo("Paulas","George");
+        profilePage.navigateBack();
+
         // Test successful logout
         MainPage loggedOutPage = homePage.logout();
         assertTrue(loggedOutPage.getBodyText().contains("Log In"));
 
     }
 
-    @Test(dependsOnMethods = "testHomeNavigationAndLogout")
+    @Test(dependsOnMethods = "testHomeNavigationAndFunctionalitiesAfterLoginThenLogout")
     public void testMultipleStaticPages() {
         // Multiple static pages tests
         List<String> urls = Arrays.asList(
