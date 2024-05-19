@@ -3,10 +3,15 @@ import org.openqa.selenium.WebElement;
 
 public class MainPage extends BasePage {
 
-    
+    private ConfigReader configReader;
+    private String baseUrl;
+
     public MainPage(WebDriver driver) {
         super(driver);
-        this.driver.get("https://www.udacity.com/");
+
+        configReader = new ConfigReader();
+        baseUrl = configReader.getProperty("baseUrl");
+        this.driver.get(baseUrl);
     }
 
      public LoginPage goToLoginPage() {

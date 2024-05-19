@@ -25,9 +25,14 @@ public class SeleniumTest {
     private MainPage mainPage;
     private LoginPage loginPage;
     private HomePage homePage;
+    private ConfigReader configReader;
+    private String baseUrl;
 
     @BeforeClass
     public void setup() throws MalformedURLException {
+
+        configReader = new ConfigReader();
+        baseUrl = configReader.getProperty("baseUrl");
 
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized"); // Maximize the browser window on startup
@@ -53,7 +58,7 @@ public class SeleniumTest {
     @Test(dependsOnMethods = "testNavigateToLoginPage")
     public void testInvalidLogin() {
         loginPage = mainPage.goToLoginPage();
-        LoginPage invalidBasePage = loginPage.loginWithInvalidCredentials("invalid@email.com", "invalid!");
+        LoginPage invalidBasePage = loginPage.loginWithInvalidCredentials(configReader.getProperty("invalidUsername"), configReader.getProperty("invalidPassword"));
         assertTrue(invalidBasePage.getLoginErrorMessage().contains("The email or password you entered is invalid"));
     }
 
@@ -67,7 +72,7 @@ public class SeleniumTest {
         assertTrue(loginPage.getPageTitle().contains("Udacity"));
 
         // Test successful login
-        homePage = loginPage.login("paulasgeorge@gmail.com", "8itDdks2!%!Yb8f");
+        homePage = loginPage.login(configReader.getProperty("validUsername"), configReader.getProperty("validPassword"));
         assertTrue(homePage.getHomePageTextAfterLogin().contains("My Programs"));
 
         homePage.displaySettingsMenu();
@@ -88,10 +93,10 @@ public class SeleniumTest {
     public void testMultipleStaticPages() {
         // Multiple static pages tests
         List<String> urls = Arrays.asList(
-                "https://www.udacity.com/catalog",
-                "https://www.udacity.com/government/overview",
-                "https://www.udacity.com/resource-center",
-                "https://www.udacity.com/enterprise/plans");
+                baseUrl+"/catalog",
+                baseUrl+"/government/overview",
+                baseUrl+"/resource-center",
+                baseUrl+"/enterprise/plans");
 
         for (String url : urls) {
             driver.get(url);
